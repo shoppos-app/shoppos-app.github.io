@@ -9,13 +9,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
+  @font-face { font-family:"Rudaw"; src:url("Rudaw-Regular.ttf") format("truetype"); font-display:swap; }
   :root {
     --ink:#0B1220; --ink2:#1C2740; --green:#059669; --green2:#047857; --mint:#ECFDF5;
     --muted:#64748B; --bg:#F3F5F9; --border:#E7EBF1; --danger:#E5484D; --gold:#F5B83D;
   }
   * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html,body { margin:0; background:var(--bg); color:var(--ink); }
-  body { font-family:"Noto Sans Arabic","Inter",system-ui,sans-serif; line-height:1.5; padding-bottom:110px; }
+  body { font-family:"Rudaw","Noto Sans Arabic","Inter",system-ui,sans-serif; line-height:1.55; padding-bottom:110px; }
   body[dir=ltr] { font-family:"Inter","Noto Sans Arabic",system-ui,sans-serif; }
   button { font:inherit; cursor:pointer; border:0; }
   input,select,textarea { font:inherit; }
@@ -161,6 +162,11 @@ const T = {
 const $ = (id) => document.getElementById(id);
 const slug = (new URLSearchParams(location.search).get('s') || '').trim().toLowerCase();
 let store = null, items = [], photos = {}, cart = {}, cat = '', lang = 'ckb', sending = false;
+const loadedPacks = new Set(), loadingPacks = new Set();
+// Photos are loaded in small packs only when the customer scrolls near them.
+const io = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); loadPack(Number(e.target.dataset.pk)); } });
+}, { rootMargin: '600px' }) : null;
 
 function store_get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
 function store_set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
@@ -234,16 +240,28 @@ async function load() {
   loadPhotos();
 }
 
-async function loadPhotos() {
-  const n = store.photoPacks || 0;
-  for (let i = 0; i < n; i++) {
-    try {
-      const res = await fetch(`${BASE}/stores/${encodeURIComponent(slug)}/photos/${i}?key=${API_KEY}`);
-      if (!res.ok) continue;
-      const p = fieldsOf(await res.json()).p || {};
-      Object.assign(photos, p);
-      renderGrid();
-    } catch (e) {}
+async function loadPack(i) {
+  if (isNaN(i) || loadedPacks.has(i) || loadingPacks.has(i)) return;
+  loadingPacks.add(i);
+  try {
+    const res = await fetch(`${BASE}/stores/${encodeURIComponent(slug)}/photos/${i}?key=${API_KEY}`);
+    if (res.ok) { Object.assign(photos, fieldsOf(await res.json()).p || {}); loadedPacks.add(i); }
+  } catch (e) {} finally { loadingPacks.delete(i); }
+  renderGrid();
+}
+
+function observePhotos() {
+  document.querySelectorAll('.ph[data-pk]').forEach(el => {
+    const pk = Number(el.dataset.pk);
+    if (loadedPacks.has(pk) || loadingPacks.has(pk)) return;
+    if (io) io.observe(el); else loadPack(pk);
+  });
+}
+
+function loadPhotos() {
+  // Older shop data without pack numbers: load every pack.
+  if (!items.some(i => i.pk !== undefined && i.pk !== null)) {
+    for (let i = 0; i < (store.photoPacks || 0); i++) loadPack(i);
   }
 }
 
@@ -281,13 +299,15 @@ function renderGrid() {
   $('grid').innerHTML = shown.map(i => {
     const k = String(i.k), qty = cart[k] || 0, ph = photos[k];
     const img = ph ? `<img loading="lazy" src="data:image/jpeg;base64,${ph}" alt="">` : esc(i.n.trim().charAt(0).toUpperCase());
+    const pkAttr = (!ph && i.pk !== undefined && i.pk !== null) ? ` data-pk="${i.pk}"` : '';
     let action;
     if (!i.s) action = `<button class="add" disabled>${t('out')}</button>`;
     else if (qty > 0) action = `<div class="stepper"><button data-a="-" data-k="${k}">−</button><span>${qty}</span><button data-a="+" data-k="${k}">+</button></div>`;
     else action = `<button class="add" data-a="+" data-k="${k}" ${store.open ? '' : 'disabled'}>${t('add')}</button>`;
-    return `<div class="card"><div class="ph">${img}</div><div class="info"><div class="name">${esc(i.n)}</div><div class="price">${money(i.p)}</div>${action}</div></div>`;
+    return `<div class="card"><div class="ph"${pkAttr}>${img}</div><div class="info"><div class="name">${esc(i.n)}</div><div class="price">${money(i.p)}</div>${action}</div></div>`;
   }).join('');
   $('grid').querySelectorAll('[data-a]').forEach(b => b.onclick = () => change(b.dataset.k, b.dataset.a === '+' ? 1 : -1));
+  observePhotos();
 }
 
 function change(k, d) {

@@ -4,124 +4,144 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Online shop</title>
-<meta name="theme-color" content="#0B1220">
+<meta name="theme-color" content="#F4F7F6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   @font-face { font-family:"Rudaw"; src:url("Rudaw-Regular.ttf") format("truetype"); font-display:swap; }
   :root {
-    --ink:#0B1220; --ink2:#1C2740; --green:#059669; --green2:#047857; --green3:#34D399; --mint:#ECFDF5;
-    --muted:#64748B; --bg:#F4F6FA; --card:#FFFFFF; --border:#E7EBF1; --danger:#E5484D; --orange:#F97316; --gold:#F5B83D;
-    --r:22px; --shadow:0 10px 30px rgba(15,23,42,.07); --shadow2:0 18px 40px rgba(15,23,42,.13);
+    --ink:#0B1220; --green:#059669; --green2:#047857; --green3:#34D399; --mint:#ECFDF5; --mint2:#D1FAE5;
+    --muted:#64748B; --bg:#F4F7F6; --card:#FFFFFF; --border:#E3EBE8; --danger:#E5484D; --orange:#F97316;
+    --r:26px; --shadow:0 10px 28px rgba(15,23,42,.06); --shadow2:0 18px 40px rgba(5,150,105,.16);
     --ease:cubic-bezier(.2,.8,.2,1);
   }
   * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html { scroll-behavior:smooth; }
   html,body { margin:0; background:var(--bg); color:var(--ink); }
-  body { font-family:"Rudaw","Noto Sans Arabic","Inter",system-ui,sans-serif; line-height:1.55; padding-bottom:120px; -webkit-font-smoothing:antialiased; }
+  body { font-family:"Rudaw","Noto Sans Arabic","Inter",system-ui,sans-serif; line-height:1.55; padding-bottom:150px; -webkit-font-smoothing:antialiased; }
   body[dir=ltr] { font-family:"Inter","Noto Sans Arabic",system-ui,sans-serif; }
-  button { font:inherit; cursor:pointer; border:0; }
+  button { font:inherit; cursor:pointer; border:0; background:none; color:inherit; }
   input,select,textarea { font:inherit; }
   a { color:inherit; }
   .hidden { display:none !important; }
+  .wrap { max-width:1120px; margin:0 auto; padding:0 16px; }
 
-  /* ───── hero ───── */
-  header { position:relative; overflow:hidden; color:#fff; padding:20px 18px 70px;
-    background:radial-gradient(1200px 400px at 85% -10%, rgba(52,211,153,.28), transparent 60%),
-               radial-gradient(800px 380px at -10% 110%, rgba(59,130,246,.22), transparent 60%),
-               linear-gradient(140deg,#0B1220 0%,#111C33 55%,#0E2A2A 100%); }
-  header::after { content:""; position:absolute; inset:0; pointer-events:none; opacity:.07;
-    background-image:radial-gradient(#fff 1px, transparent 1px); background-size:22px 22px; }
-  .wrap { max-width:1120px; margin:0 auto; position:relative; z-index:1; }
-  .bar { display:flex; align-items:center; gap:10px; }
-  .langs { margin-inline-start:auto; display:flex; gap:4px; padding:4px; border-radius:14px; background:rgba(255,255,255,.08); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.12); }
-  .langs button { background:transparent; color:#cbd5e1; padding:6px 11px; border-radius:10px; font-size:.82rem; transition:all .25s var(--ease); }
-  .langs button.on { background:#fff; color:var(--ink); font-weight:800; }
-  .brandline { display:flex; align-items:center; gap:16px; margin-top:22px; }
-  .logo { width:72px; height:72px; border-radius:24px; flex:none; display:grid; place-items:center; font-size:32px; font-weight:800;
-    background:linear-gradient(135deg,var(--green3),var(--green)); box-shadow:0 12px 30px rgba(5,150,105,.45), inset 0 0 0 3px rgba(255,255,255,.25);
-    animation:pop .7s var(--ease) both; }
-  .shopname { font-size:clamp(1.5rem,4.5vw,2.2rem); font-weight:800; margin:0; line-height:1.2; animation:rise .7s .05s var(--ease) both; }
-  .meta { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:8px; animation:rise .7s .12s var(--ease) both; }
-  .pill { display:inline-flex; align-items:center; gap:7px; padding:5px 12px; border-radius:999px; font-size:.85rem; font-weight:700; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.14); }
-  .dot { width:8px; height:8px; border-radius:50%; background:var(--green3); box-shadow:0 0 0 0 rgba(52,211,153,.7); animation:pulse 2s infinite; }
-  .pill.closed .dot { background:var(--danger); animation:none; }
-  .actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:18px; animation:rise .7s .18s var(--ease) both; }
-  .act { display:inline-flex; align-items:center; gap:8px; text-decoration:none; padding:10px 16px; border-radius:14px; font-weight:800; font-size:.92rem; transition:transform .2s var(--ease), background .2s; }
-  .act:active { transform:scale(.96); }
-  .act.call { background:#fff; color:var(--ink); }
-  .act.wa { background:#25D366; color:#fff; }
-  .act.loc { background:rgba(255,255,255,.1); color:#fff; border:1px solid rgba(255,255,255,.16); }
+  /* ───── top ───── */
+  .topbar { display:flex; align-items:center; gap:10px; padding:14px 0 6px; }
+  .menu-btn { margin-inline-start:auto; width:52px; height:52px; border-radius:18px; background:#fff; box-shadow:var(--shadow); display:grid; place-items:center; transition:transform .2s var(--ease); }
+  .menu-btn:active { transform:scale(.93); }
+  .langs { display:flex; gap:3px; padding:4px; border-radius:15px; background:#fff; box-shadow:var(--shadow); }
+  .langs button { color:var(--muted); padding:7px 11px; border-radius:11px; font-size:.82rem; font-weight:600; transition:all .25s var(--ease); }
+  .langs button.on { background:var(--green); color:#fff; font-weight:800; }
 
-  /* ───── main ───── */
-  main { max-width:1120px; margin:-40px auto 0; padding:0 14px; position:relative; z-index:2; }
-  .tools { position:sticky; top:0; z-index:5; padding:10px 0 4px; margin:0 -14px; padding-inline:14px; transition:background .3s, box-shadow .3s; }
-  .tools.stuck { background:rgba(244,246,250,.82); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow:0 8px 20px rgba(15,23,42,.06); }
-  .search { background:#fff; border-radius:18px; box-shadow:var(--shadow); display:flex; align-items:center; padding:4px 16px; gap:10px; border:1.5px solid transparent; transition:border-color .2s, box-shadow .2s; }
-  .search:focus-within { border-color:var(--green); box-shadow:0 10px 30px rgba(5,150,105,.15); }
-  .search svg { flex:none; color:var(--muted); }
-  .search input { border:0; outline:0; flex:1; padding:13px 2px; font-size:1rem; background:transparent; min-width:0; }
-  .chips { display:flex; gap:8px; overflow-x:auto; padding:12px 2px 8px; scrollbar-width:none; }
+  .hero { margin-top:12px; border-radius:30px; padding:22px; position:relative; overflow:hidden;
+    background:linear-gradient(140deg,#FFFFFF 0%,#F2FBF7 60%,#E3F7EE 100%); border:1.5px solid var(--mint2); box-shadow:var(--shadow);
+    display:flex; gap:18px; align-items:center; animation:rise .6s var(--ease) both; }
+  .hero::after { content:""; position:absolute; width:260px; height:260px; border-radius:50%; inset-inline-end:-90px; bottom:-120px;
+    background:radial-gradient(circle,rgba(52,211,153,.22),transparent 70%); pointer-events:none; }
+  .logo { width:96px; height:96px; border-radius:28px; flex:none; display:grid; place-items:center; font-size:42px; font-weight:800; color:#fff;
+    background:linear-gradient(140deg,#0B1220,#123B33); box-shadow:0 0 0 6px var(--mint2), 0 14px 30px rgba(5,150,105,.25); animation:pop .7s var(--ease) both; }
+  .logo span { background:linear-gradient(135deg,var(--green3),#A7F3D0); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hinfo { min-width:0; flex:1; position:relative; z-index:1; }
+  .shopname { font-size:clamp(1.45rem,5vw,2.1rem); font-weight:800; margin:0; line-height:1.2; color:var(--green2); }
+  .hline { display:flex; align-items:center; gap:7px; color:#334155; margin-top:7px; font-weight:600; font-size:.95rem; flex-wrap:wrap; }
+  .hline svg { color:var(--green); flex:none; }
+  .hline a { text-decoration:none; }
+  .habout { color:var(--muted); margin-top:7px; font-size:.92rem; }
+  .status { display:inline-flex; align-items:center; gap:7px; margin-top:10px; padding:5px 12px; border-radius:999px; font-size:.82rem; font-weight:800; background:var(--mint); color:var(--green2); }
+  .status .dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+  .status.closed { background:#FFF1F1; color:var(--danger); }
+  .status.closed .dot { background:var(--danger); animation:none; }
+  @media (max-width:520px) { .hero { flex-direction:column; text-align:center; } .hline { justify-content:center; } }
+
+  /* ───── tools ───── */
+  .tools { position:sticky; top:0; z-index:6; margin:0 -16px; padding:12px 16px 4px; transition:background .3s, box-shadow .3s; }
+  .tools.stuck { background:rgba(244,247,246,.85); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow:0 8px 20px rgba(15,23,42,.06); }
+  .search { background:#fff; border-radius:22px; display:flex; align-items:center; padding:4px 18px; gap:10px; border:2px solid var(--mint2); transition:border-color .2s, box-shadow .2s; }
+  .search:focus-within { border-color:var(--green); box-shadow:0 10px 26px rgba(5,150,105,.15); }
+  .search svg { flex:none; color:var(--green); }
+  .search input { border:0; outline:0; flex:1; padding:14px 2px; font-size:1rem; background:transparent; min-width:0; }
+  .chips { display:flex; gap:10px; overflow-x:auto; padding:12px 8px 16px; margin:0 -8px; scrollbar-width:none; }
   .chips::-webkit-scrollbar { display:none; }
-  .chip { background:#fff; border:1px solid var(--border); padding:8px 16px; border-radius:999px; white-space:nowrap; color:var(--ink); font-weight:600; transition:all .25s var(--ease); }
+  .chip { background:#fff; border:1.5px solid var(--border); padding:10px 20px; border-radius:999px; white-space:nowrap; font-weight:700; transition:all .25s var(--ease); }
   .chip:active { transform:scale(.95); }
-  .chip.on { background:var(--ink); color:#fff; border-color:var(--ink); font-weight:800; box-shadow:0 6px 16px rgba(11,18,32,.25); }
-  .chip.offers { border-color:#FECACA; color:var(--danger); font-weight:800; background:#FFF5F5; }
-  .chip.offers.on { background:linear-gradient(135deg,var(--danger),var(--orange)); color:#fff; border-color:transparent; box-shadow:0 6px 16px rgba(229,72,77,.35); }
+  .chip.on { background:linear-gradient(135deg,var(--green),var(--green2)); color:#fff; border-color:transparent; box-shadow:0 5px 12px rgba(5,150,105,.28); }
+  .chip.offers { border-color:#FECACA; color:var(--danger); background:#FFF5F5; }
+  .chip.offers.on { background:linear-gradient(135deg,var(--danger),var(--orange)); color:#fff; border-color:transparent; box-shadow:0 8px 18px rgba(229,72,77,.32); }
 
-  .notice { display:flex; gap:10px; align-items:center; background:#FFF7E8; border:1px solid #F5D18B; color:#7A4E00; padding:14px 16px; border-radius:16px; margin:12px 0; font-weight:700; }
-  .count-line { color:var(--muted); font-size:.88rem; font-weight:600; margin:6px 2px 10px; }
+  .notice { display:flex; gap:10px; align-items:center; background:#FFF7E8; border:1px solid #F5D18B; color:#7A4E00; padding:14px 16px; border-radius:18px; margin:12px 0; font-weight:700; }
+  .listhead { display:flex; align-items:center; gap:12px; margin:14px 0 14px; }
+  .countbadge { min-width:54px; height:54px; padding:0 10px; border-radius:999px; display:grid; place-items:center; color:#fff; font-weight:800; font-size:1.15rem;
+    background:linear-gradient(135deg,var(--green),var(--green2)); box-shadow:0 8px 18px rgba(5,150,105,.3); }
+  .countlbl { font-weight:800; font-size:1.05rem; }
+  .countsub { color:var(--muted); font-size:.8rem; font-weight:600; }
+  .sort { margin-inline-start:auto; position:relative; display:flex; align-items:center; gap:8px; background:#fff; border:2px solid var(--mint2); border-radius:18px; padding:0 14px; height:50px; }
+  .sort svg { color:var(--green); flex:none; }
+  .sort select { appearance:none; -webkit-appearance:none; border:0; outline:0; background:transparent; font-weight:700; padding:0 4px; color:var(--ink); max-width:170px; }
 
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); gap:14px; }
-  @media (max-width:420px) { .grid { grid-template-columns:repeat(2,1fr); gap:10px; } }
-  .card { background:var(--card); border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column; transition:transform .3s var(--ease), box-shadow .3s var(--ease); }
+  /* ───── cards ───── */
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:16px; }
+  @media (max-width:520px) { .grid { grid-template-columns:repeat(2,1fr); gap:12px; } }
+  .card { background:var(--card); border-radius:var(--r); padding:12px; box-shadow:var(--shadow); display:flex; flex-direction:column; border:2px solid transparent;
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s; }
   .grid.anim .card { animation:rise .55s var(--ease) both; animation-delay:calc(var(--i) * 35ms); }
-  @media (hover:hover) { .card:hover { transform:translateY(-4px); box-shadow:var(--shadow2); } .card:hover .ph img { transform:scale(1.06); } }
-  .ph { position:relative; aspect-ratio:1/1; display:grid; place-items:center; overflow:hidden; color:#94A3B8; font-size:2.6rem; font-weight:800;
-    background:linear-gradient(135deg,#EEF2F7,#E2E8F0); }
-  .ph.wait::before { content:""; position:absolute; inset:0; background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.6) 50%,transparent 70%); background-size:200% 100%; animation:shimmer 1.3s infinite; }
+  .card.incart { border-color:#A7F3D0; box-shadow:var(--shadow2); }
+  @media (hover:hover) { .card:hover { transform:translateY(-4px); box-shadow:var(--shadow2); } .card:hover .ph img { transform:scale(1.05); } }
+  .ph { position:relative; aspect-ratio:1/1; border-radius:20px; display:grid; place-items:center; overflow:hidden; color:#9FB3AC; font-size:2.8rem; font-weight:800;
+    background:linear-gradient(140deg,#F6FAF8,#E8F2EE); }
+  .ph.wait::before { content:""; position:absolute; inset:0; background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%); background-size:200% 100%; animation:shimmer 1.3s infinite; }
   .ph img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s var(--ease); animation:fade .4s ease both; }
   .off { position:absolute; top:10px; inset-inline-start:10px; background:linear-gradient(135deg,var(--danger),var(--orange)); color:#fff; font-weight:800; font-size:.85rem; padding:4px 10px; border-radius:999px; box-shadow:0 6px 14px rgba(229,72,77,.4); direction:ltr; }
-  .soldout { position:absolute; inset:0; display:grid; place-items:center; background:rgba(255,255,255,.55); backdrop-filter:grayscale(1); color:var(--ink); font-size:.95rem; font-weight:800; }
-  .info { padding:12px 13px 13px; display:flex; flex-direction:column; gap:6px; flex:1; }
-  .name { font-weight:700; font-size:.98rem; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:2.7em; }
-  .prices { display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 8px; }
-  .price { color:var(--green2); font-weight:800; font-size:1.08rem; }
+  .soldout { position:absolute; inset:0; display:grid; place-items:center; background:rgba(255,255,255,.6); color:var(--ink); font-size:.95rem; font-weight:800; }
+  .info { padding:12px 4px 2px; display:flex; flex-direction:column; gap:8px; flex:1; }
+  .name { font-weight:800; font-size:1rem; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:2.7em; transition:color .3s; }
+  .card.incart .name { color:var(--green2); }
+  .tags { display:flex; flex-wrap:wrap; gap:6px; }
+  .tag { padding:4px 11px; border-radius:999px; font-size:.78rem; font-weight:700; background:var(--mint); color:var(--green2); border:1px solid var(--mint2); }
+  .tag.red { background:#FFF1F1; color:var(--danger); border-color:#FECACA; }
+  .bottom { margin-top:auto; padding-top:10px; border-top:1.5px solid #EEF3F1; display:flex; align-items:center; gap:8px; justify-content:space-between; flex-wrap:wrap; }
+  .prices { display:flex; flex-direction:column; line-height:1.2; }
+  .price { color:var(--green2); font-weight:800; font-size:1.1rem; white-space:nowrap; }
   .card.sale .price { color:var(--danger); }
-  .oldp { color:var(--muted); text-decoration:line-through; font-size:.82rem; font-weight:600; }
-  .until { color:var(--danger); font-size:.76rem; font-weight:700; }
-  .out { color:var(--muted); font-size:.85rem; font-weight:600; }
-  .act-slot { margin-top:auto; padding-top:2px; }
-  .add { width:100%; display:flex; align-items:center; justify-content:center; gap:6px; background:linear-gradient(135deg,var(--green),var(--green2)); color:#fff; padding:10px; border-radius:14px; font-weight:800; box-shadow:0 6px 14px rgba(5,150,105,.25); transition:transform .15s var(--ease), box-shadow .2s; }
-  .add:active { transform:scale(.96); }
-  .add:disabled { background:#CBD5E1; box-shadow:none; }
-  .stepper { display:flex; align-items:center; justify-content:space-between; background:var(--mint); border-radius:14px; padding:4px; animation:fade .25s ease both; }
-  .stepper button { width:38px; height:38px; border-radius:11px; background:#fff; color:var(--green2); font-size:1.3rem; font-weight:800; box-shadow:0 2px 6px rgba(15,23,42,.06); transition:transform .15s; }
-  .stepper button:active { transform:scale(.9); }
-  .stepper span { font-weight:800; font-size:1.05rem; }
+  .oldp { color:var(--muted); text-decoration:line-through; font-size:.78rem; font-weight:600; }
+  .stepper { display:flex; align-items:center; gap:4px; background:linear-gradient(135deg,#F6FAF8,var(--mint)); border:1.5px solid var(--mint2); border-radius:999px; padding:3px; }
+  .stepper button { width:34px; height:34px; border-radius:50%; display:grid; place-items:center; font-size:1.25rem; font-weight:800; transition:transform .15s var(--ease), opacity .2s; }
+  .stepper button:active { transform:scale(.88); }
+  .stepper .minus { background:#fff; color:var(--green2); box-shadow:0 2px 6px rgba(15,23,42,.08); }
+  .stepper .minus:disabled { opacity:.35; }
+  .stepper .plus { background:linear-gradient(135deg,var(--green),var(--green2)); color:#fff; box-shadow:0 6px 12px rgba(5,150,105,.35); }
+  .stepper .plus:disabled { background:#CBD5E1; box-shadow:none; }
+  .stepper span { min-width:22px; text-align:center; font-weight:800; }
+  .stepper span.bump { animation:bump .35s var(--ease); }
+  @media (max-width:520px) {
+    .bottom { flex-direction:column-reverse; align-items:stretch; gap:8px; }
+    .bottom .prices { flex-direction:row; align-items:baseline; gap:6px; flex-wrap:wrap; }
+    .stepper { justify-content:space-between; }
+    .outlbl { text-align:center; padding:6px 0; }
+  }
+  .outlbl { color:var(--muted); font-weight:700; font-size:.85rem; }
   .empty { grid-column:1/-1; text-align:center; color:var(--muted); padding:50px 10px; font-weight:600; }
   .empty div { font-size:2.6rem; margin-bottom:6px; }
 
   /* ───── pages ───── */
-  .pager { display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; margin:26px 0 8px; }
-  .pager button { min-width:42px; height:42px; padding:0 12px; border-radius:13px; background:#fff; color:var(--ink); font-weight:800; box-shadow:0 4px 12px rgba(15,23,42,.06); transition:all .25s var(--ease); }
+  .pager { display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; margin:28px 0 8px; }
+  .pager button { min-width:44px; height:44px; padding:0 12px; border-radius:14px; background:#fff; font-weight:800; box-shadow:0 4px 12px rgba(15,23,42,.06); transition:all .25s var(--ease); }
   .pager button:active { transform:scale(.94); }
-  .pager button.on { background:var(--ink); color:#fff; box-shadow:0 8px 18px rgba(11,18,32,.28); transform:translateY(-2px); }
+  .pager button.on { background:linear-gradient(135deg,var(--green),var(--green2)); color:#fff; box-shadow:0 8px 18px rgba(5,150,105,.3); transform:translateY(-2px); }
   .pager button:disabled { opacity:.4; }
-  .pager .nav { display:inline-flex; align-items:center; gap:6px; }
   .pager .gap { color:var(--muted); padding:0 2px; font-weight:800; }
 
-  /* ───── footer ───── */
-  .about { margin-top:34px; background:#fff; border-radius:26px; box-shadow:var(--shadow); padding:22px; display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
-  .about h3 { margin:0 0 4px; font-size:1.15rem; grid-column:1/-1; }
+  /* ───── about + made with ───── */
+  .about { margin-top:34px; background:#fff; border-radius:28px; box-shadow:var(--shadow); padding:22px; display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+  .about h3 { margin:0 0 4px; font-size:1.15rem; grid-column:1/-1; color:var(--green2); }
   .ainfo { display:flex; gap:12px; align-items:flex-start; }
-  .aicon { width:44px; height:44px; border-radius:14px; flex:none; display:grid; place-items:center; font-size:1.2rem; background:var(--mint); }
+  .aicon { width:46px; height:46px; border-radius:15px; flex:none; display:grid; place-items:center; font-size:1.2rem; background:var(--mint); }
   .ainfo small { display:block; color:var(--muted); font-weight:600; font-size:.8rem; }
   .ainfo b { font-weight:700; word-break:break-word; }
-  .ainfo a.btnmap { display:inline-flex; margin-top:8px; padding:7px 12px; border-radius:11px; background:var(--ink); color:#fff; font-weight:800; font-size:.85rem; text-decoration:none; }
-  .made { margin:22px 0 4px; border-radius:24px; padding:18px 20px; color:#fff; display:flex; align-items:center; gap:14px; flex-wrap:wrap; text-decoration:none;
-    background:linear-gradient(135deg,#0B1220,#123B33); box-shadow:0 14px 30px rgba(11,18,32,.25); }
+  .btnmap { display:inline-flex; margin-top:8px; padding:8px 13px; border-radius:12px; background:var(--green); color:#fff !important; font-weight:800; font-size:.85rem; text-decoration:none; }
+  .made { margin:22px 0 4px; border-radius:26px; padding:18px 20px; color:#fff; display:flex; align-items:center; gap:14px; flex-wrap:wrap; text-decoration:none;
+    background:linear-gradient(135deg,#0B1220,#123B33); box-shadow:0 14px 30px rgba(11,18,32,.22); }
   .made .mlogo { width:46px; height:46px; border-radius:15px; display:grid; place-items:center; font-size:1.4rem; background:linear-gradient(135deg,var(--green3),var(--green)); flex:none; }
   .made small { display:block; color:#94A3B8; font-size:.8rem; }
   .made b { font-size:1.1rem; }
@@ -129,25 +149,51 @@
   footer { text-align:center; color:var(--muted); font-size:.8rem; padding:16px 10px 6px; }
   footer a { color:var(--muted); }
 
-  /* ───── cart bar ───── */
-  .cartbar { position:fixed; inset-inline:12px; bottom:calc(14px + env(safe-area-inset-bottom)); max-width:720px; margin:0 auto; z-index:10;
-    background:rgba(11,18,32,.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); color:#fff; border-radius:22px; padding:10px 10px 10px 16px;
-    display:flex; align-items:center; gap:12px; box-shadow:0 16px 36px rgba(11,18,32,.38); animation:up .45s var(--ease) both; }
-  .cartbar .count { background:linear-gradient(135deg,var(--green3),var(--green)); border-radius:12px; min-width:34px; height:34px; display:grid; place-items:center; font-weight:800; }
-  .cartbar .count.bump { animation:bump .45s var(--ease); }
-  .cartbar .total { font-weight:800; font-size:1.1rem; }
-  .cartbar button { margin-inline-start:auto; background:#fff; color:var(--ink); padding:12px 18px; border-radius:15px; font-weight:800; }
+  /* ───── bottom: cart + brand ───── */
+  .dock { position:fixed; inset-inline:0; bottom:0; z-index:10; background:rgba(255,255,255,.92); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border-top:1.5px solid var(--mint2); padding:10px 14px calc(6px + env(safe-area-inset-bottom)); }
+  .dock .in { max-width:760px; margin:0 auto; }
+  .cartrow { display:flex; align-items:center; gap:12px; animation:up .4s var(--ease) both; }
+  .buy { flex:1; display:flex; align-items:center; justify-content:center; gap:10px; height:58px; border-radius:20px; color:#fff; font-weight:800; font-size:1.08rem;
+    background:linear-gradient(135deg,var(--green),var(--green2)); box-shadow:0 10px 24px rgba(5,150,105,.35); transition:transform .15s var(--ease); }
+  .buy:active { transform:scale(.97); }
+  .bag { position:relative; width:58px; height:58px; border-radius:20px; display:grid; place-items:center; background:var(--mint); color:var(--green2); flex:none; }
+  .bag .badge { position:absolute; top:-6px; inset-inline-end:-6px; min-width:24px; height:24px; padding:0 6px; border-radius:999px; background:var(--danger); color:#fff; font-size:.8rem; font-weight:800; display:grid; place-items:center; box-shadow:0 0 0 3px #fff; }
+  .bag .badge.bump { animation:bump .45s var(--ease); }
+  .brand { text-align:center; font-size:.85rem; color:var(--muted); padding-top:6px; }
+  .brand a { color:var(--green2); font-weight:800; text-decoration:none; }
+  .wa-fab { position:fixed; inset-inline-end:16px; bottom:calc(150px + env(safe-area-inset-bottom)); z-index:11; width:62px; height:62px; border-radius:50%; background:#25D366; color:#fff;
+    display:grid; place-items:center; box-shadow:0 12px 26px rgba(37,211,102,.45); animation:pop .6s .4s var(--ease) both; transition:bottom .35s var(--ease); }
+  body.nocart .wa-fab { bottom:calc(64px + env(safe-area-inset-bottom)); }
   .toast { position:fixed; left:50%; top:calc(14px + env(safe-area-inset-top)); transform:translate(-50%,-220%); opacity:0; visibility:hidden; z-index:30; background:var(--ink); color:#fff; padding:10px 16px; border-radius:14px; font-weight:700; box-shadow:0 12px 26px rgba(11,18,32,.3); transition:transform .4s var(--ease), opacity .3s, visibility .3s; white-space:nowrap; }
   .toast.show { transform:translate(-50%,0); opacity:1; visibility:visible; }
+
+  /* ───── side menu ───── */
+  .drawer-bg { position:fixed; inset:0; z-index:40; background:rgba(11,18,32,.35); backdrop-filter:blur(3px); opacity:0; visibility:hidden; transition:opacity .3s, visibility .3s; }
+  .drawer-bg.show { opacity:1; visibility:visible; }
+  .drawer { position:fixed; top:0; bottom:0; inset-inline-end:0; width:min(360px,88vw); z-index:41; background:#fff; padding:18px 18px calc(20px + env(safe-area-inset-bottom));
+    box-shadow:-20px 0 40px rgba(11,18,32,.18); overflow-y:auto; transform:translateX(105%); transition:transform .4s var(--ease); }
+  [dir=rtl] .drawer { transform:translateX(-105%); }
+  .drawer.show { transform:none !important; }
+  .drawer-head { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .drawer-head b { font-size:1.15rem; flex:1; }
+  .xbtn { width:44px; height:44px; border-radius:14px; background:var(--bg); font-size:1.2rem; font-weight:800; }
+  .dsec { margin-top:18px; }
+  .dsec small { display:block; color:var(--muted); font-weight:700; margin-bottom:8px; }
+  .dlangs { display:flex; gap:8px; }
+  .dlangs button { flex:1; padding:11px; border-radius:14px; background:var(--bg); font-weight:700; }
+  .dlangs button.on { background:var(--green); color:#fff; }
+  .dlink { display:flex; align-items:center; gap:12px; padding:12px; border-radius:16px; background:var(--bg); text-decoration:none; font-weight:700; margin-bottom:8px; }
+  .dlink .aicon { width:40px; height:40px; border-radius:13px; background:#fff; }
 
   /* Cart and checkout open as a normal full page (scrolls well on iPhone and Android,
      also with the keyboard open). */
   .sheet-bg { background:var(--bg); min-height:100vh; }
   .sheet { background:#fff; width:100%; max-width:720px; margin:0 auto; min-height:100vh; padding:12px 18px calc(40px + env(safe-area-inset-bottom)); animation:fade .3s ease both; }
-  .sheet-top { position:sticky; top:0; background:rgba(255,255,255,.9); backdrop-filter:blur(12px); z-index:2; display:flex; align-items:center; gap:10px; padding:10px 0; margin-bottom:6px; border-bottom:1px solid var(--border); }
+  .sheet-top { position:sticky; top:0; background:rgba(255,255,255,.92); backdrop-filter:blur(12px); z-index:2; display:flex; align-items:center; gap:10px; padding:10px 0; margin-bottom:6px; border-bottom:1px solid var(--border); }
   .sheet-top button { width:42px; height:42px; border-radius:14px; background:var(--bg); font-size:1.3rem; font-weight:800; color:var(--ink); }
   .sheet-top b { font-size:1.05rem; }
-  body.page-open header, body.page-open main, body.page-open .cartbar { display:none !important; }
+  body.page-open .page, body.page-open .dock, body.page-open .wa-fab { display:none !important; }
   body.page-open { padding-bottom:0; }
   .sheet h2 { margin:4px 0 12px; font-size:1.25rem; }
   .line { display:flex; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid var(--border); }
@@ -166,6 +212,7 @@
   .btn:disabled { opacity:.6; }
   .err { color:var(--danger); font-weight:700; margin-top:10px; }
   .cod { background:var(--mint); color:var(--green2); padding:12px 14px; border-radius:14px; font-weight:700; margin-top:14px; }
+  .out { color:var(--muted); font-size:.85rem; font-weight:600; }
 
   .center { text-align:center; padding:60px 20px; color:var(--muted); }
   .done { text-align:center; padding:16px 6px; }
@@ -179,61 +226,88 @@
   @keyframes up { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:none; } }
   @keyframes bump { 0% { transform:scale(1); } 40% { transform:scale(1.35); } 100% { transform:scale(1); } }
   @keyframes shimmer { from { background-position:200% 0; } to { background-position:-200% 0; } }
-  @keyframes pulse { 0% { box-shadow:0 0 0 0 rgba(52,211,153,.7); } 70% { box-shadow:0 0 0 9px rgba(52,211,153,0); } 100% { box-shadow:0 0 0 0 rgba(52,211,153,0); } }
+  @keyframes pulse { 0% { box-shadow:0 0 0 0 rgba(5,150,105,.6); } 70% { box-shadow:0 0 0 9px rgba(5,150,105,0); } 100% { box-shadow:0 0 0 0 rgba(5,150,105,0); } }
   @media (prefers-reduced-motion:reduce) { *,*::before { animation:none !important; transition:none !important; } html { scroll-behavior:auto; } }
 </style>
 </head>
-<body dir="rtl">
+<body dir="rtl" class="nocart">
 
-<header>
+<div class="page">
   <div class="wrap">
-    <div class="bar">
+    <div class="topbar">
       <div class="langs">
         <button data-l="ckb">کوردی</button>
         <button data-l="ar">عربي</button>
         <button data-l="en">EN</button>
       </div>
+      <button class="menu-btn" id="menuBtn" aria-label="menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0B1220" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
-    <div class="brandline">
-      <div class="logo" id="logo">🛒</div>
-      <div style="min-width:0">
-        <h1 class="shopname" id="shopName">…</h1>
-        <div class="meta" id="meta"></div>
+
+    <section class="hero hidden" id="hero">
+      <div class="logo" id="logo"><span>🛒</span></div>
+      <div class="hinfo">
+        <h1 class="shopname" id="shopName"></h1>
+        <div id="heroLines"></div>
+        <div class="status" id="status"><span class="dot"></span><span id="statusText"></span></div>
       </div>
+    </section>
+
+    <div class="tools" id="tools">
+      <div class="search">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" autocomplete="off">
+      </div>
+      <div class="chips" id="chips"></div>
     </div>
-    <div class="actions" id="actions"></div>
-  </div>
-</header>
 
-<main>
-  <div class="tools" id="tools">
-    <div class="search">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" autocomplete="off">
+    <div id="notice" class="notice hidden"></div>
+    <div id="state" class="center"><div class="spinner"></div><div id="stateText"></div></div>
+
+    <div class="listhead hidden" id="listhead">
+      <div class="countbadge" id="countBadge">0</div>
+      <div><div class="countlbl" id="countLbl"></div><div class="countsub" id="countSub"></div></div>
+      <label class="sort">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M3 5h18l-7 8.5V19l-4 2v-7.5z"/></svg>
+        <select id="sort"></select>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B1220" stroke-width="2.6" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+      </label>
     </div>
-    <div class="chips" id="chips"></div>
+
+    <div class="grid" id="grid"></div>
+    <div class="pager hidden" id="pager"></div>
+
+    <section class="about hidden" id="about"></section>
+    <a class="made" id="made" href="../" target="_blank" rel="noopener">
+      <div class="mlogo">🛍️</div>
+      <div><small id="madeWith"></small><b class="appName"></b></div>
+      <span class="go" id="createOwn"></span>
+    </a>
+    <footer><span id="powered"></span> · <a href="../privacy.html" id="privacyLink"></a></footer>
   </div>
-  <div id="notice" class="notice hidden"></div>
-  <div id="state" class="center"><div class="spinner"></div><div id="stateText"></div></div>
-  <div class="count-line hidden" id="countLine"></div>
-  <div class="grid" id="grid"></div>
-  <div class="pager hidden" id="pager"></div>
+</div>
 
-  <section class="about hidden" id="about"></section>
-  <a class="made" id="made" href="../" target="_blank" rel="noopener">
-    <div class="mlogo">🛍️</div>
-    <div><small id="madeWith"></small><b id="appName"></b></div>
-    <span class="go" id="createOwn"></span>
-  </a>
-  <footer><span id="powered"></span> · <a href="../privacy.html" id="privacyLink"></a></footer>
-</main>
+<a class="wa-fab hidden" id="waFab" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.2-.1-1-.4-2-1.2-.7-.6-1.2-1.4-1.3-1.7-.1-.2 0-.4.1-.5l.4-.4.2-.4v-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 2.2.9 2.6.7 3.1.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.2-.3-.2-.5-.3z"/></svg>
+</a>
 
-<div class="cartbar hidden" id="cartbar">
-  <span class="count" id="cartCount">0</span>
-  <span class="total" id="cartTotal"></span>
-  <button id="openCart"></button>
+<div class="dock">
+  <div class="in">
+    <div class="cartrow hidden" id="cartbar">
+      <button class="buy" id="openCart"></button>
+      <button class="bag" id="bagBtn" aria-label="cart">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="badge" id="cartCount">0</span>
+      </button>
+    </div>
+    <div class="brand"><span id="brandText"></span> <a href="../" target="_blank" rel="noopener" class="appName"></a></div>
+  </div>
 </div>
 <div class="toast" id="toast"></div>
+
+<div class="drawer-bg" id="drawerBg"></div>
+<aside class="drawer" id="drawer"></aside>
 
 <div class="sheet-bg hidden" id="sheetBg">
   <div class="sheet" id="sheet"></div>
@@ -252,7 +326,7 @@ const T = {
         cod:'💵 Pay cash on delivery', send:'Send order', sending:'Sending…', back:'Back', fill:'Please fill in your name, phone, city and address.',
         badPhone:'Please enter a correct phone number.', failed:'Could not send the order. Check the internet and try again.',
         refused:'The shop is not taking orders right now.', doneTitle:'Order received!', doneText:'Thank you. The shop will call you soon to confirm your order.',
-        again:'Order something else', call:'Call', powered:'Online shop', privacy:'Privacy', items:'items', free:'Free', offers:'🔥 Offers', until:'Offer until', openNow:'Open now', closedNow:'Closed', whatsapp:'WhatsApp', prev:'Previous', next:'Next', showing:'{a}–{b} of {n} items', visit:'Visit us', shopAddr:'Address', hours:'Working hours', map:'Open in Maps', about:'About us', contact:'Contact', madeWith:'This online shop was made with', createOwn:'Make your own online shop', added:'Added to cart', noResults:'No items found', perPage:'Page', },
+        again:'Order something else', call:'Call', powered:'Online shop', privacy:'Privacy', items:'items', free:'Free', offers:'🔥 Offers', until:'Offer until', openNow:'Open now', closedNow:'Closed', whatsapp:'WhatsApp', prev:'Previous', next:'Next', showing:'{a}–{b} of {n} items', visit:'Visit us', shopAddr:'Address', hours:'Working hours', map:'Open in Maps', about:'About us', contact:'Contact', madeWith:'This online shop was made with', createOwn:'Make your own online shop', added:'Added to cart', noResults:'No items found', perPage:'Page', sortNew:'Newest', sortLow:'Price: low to high', sortHigh:'Price: high to low', sortName:'Name A–Z', sortOff:'Offers first', buy:'Order items', menu:'Shop info', languages:'Language', close:'Close', },
   ar: { loading:'جارٍ التحميل…', notFound:'لم يتم العثور على هذا المتجر. تحقق من الرابط.', closed:'هذا المتجر لا يستقبل الطلبات حالياً.',
         search:'ابحث عن المواد', all:'الكل', add:'أضف', out:'غير متوفر', viewCart:'عرض السلة', cart:'سلتك', empty:'سلتك فارغة',
         subtotal:'المواد', fee:'التوصيل', total:'المجموع', checkout:'إتمام الطلب', name:'اسمك', phone:'رقم الهاتف', city:'المدينة',
@@ -260,7 +334,7 @@ const T = {
         cod:'💵 الدفع نقداً عند الاستلام', send:'أرسل الطلب', sending:'جارٍ الإرسال…', back:'رجوع', fill:'يرجى إدخال الاسم والهاتف والمدينة والعنوان.',
         badPhone:'يرجى إدخال رقم هاتف صحيح.', failed:'تعذر إرسال الطلب. تحقق من الإنترنت وحاول مرة أخرى.',
         refused:'المتجر لا يستقبل الطلبات حالياً.', doneTitle:'تم استلام طلبك!', doneText:'شكراً لك. سيتصل بك المتجر قريباً لتأكيد الطلب.',
-        again:'اطلب شيئاً آخر', call:'اتصال', powered:'متجر إلكتروني', privacy:'الخصوصية', items:'مواد', free:'مجاني', offers:'🔥 العروض', until:'العرض حتى', openNow:'مفتوح الآن', closedNow:'مغلق', whatsapp:'واتساب', prev:'السابق', next:'التالي', showing:'{a}–{b} من {n} مادة', visit:'زورونا', shopAddr:'العنوان', hours:'ساعات العمل', map:'افتح في الخرائط', about:'من نحن', contact:'تواصل معنا', madeWith:'تم إنشاء هذا المتجر الإلكتروني بواسطة', createOwn:'أنشئ متجرك الإلكتروني', added:'أُضيف إلى السلة', noResults:'لا توجد مواد', perPage:'صفحة', },
+        again:'اطلب شيئاً آخر', call:'اتصال', powered:'متجر إلكتروني', privacy:'الخصوصية', items:'مواد', free:'مجاني', offers:'🔥 العروض', until:'العرض حتى', openNow:'مفتوح الآن', closedNow:'مغلق', whatsapp:'واتساب', prev:'السابق', next:'التالي', showing:'{a}–{b} من {n} مادة', visit:'زورونا', shopAddr:'العنوان', hours:'ساعات العمل', map:'افتح في الخرائط', about:'من نحن', contact:'تواصل معنا', madeWith:'تم إنشاء هذا المتجر الإلكتروني بواسطة', createOwn:'أنشئ متجرك الإلكتروني', added:'أُضيف إلى السلة', noResults:'لا توجد مواد', perPage:'صفحة', sortNew:'الأحدث', sortLow:'السعر: من الأقل', sortHigh:'السعر: من الأعلى', sortName:'الاسم أ–ي', sortOff:'العروض أولاً', buy:'اطلب المواد', menu:'معلومات المتجر', languages:'اللغة', close:'إغلاق', },
   ckb:{ loading:'چاوەڕێ بکە…', notFound:'ئەم فرۆشگایە نەدۆزرایەوە. لینکەکە بپشکنە.', closed:'ئەم فرۆشگایە ئێستا داواکاری وەرناگرێت.',
         search:'گەڕان بۆ کاڵا', all:'هەموو', add:'زیادکردن', out:'نەماوە', viewCart:'بینینی سەبەتە', cart:'سەبەتەکەت', empty:'سەبەتەکەت بەتاڵە',
         subtotal:'کاڵاکان', fee:'گەیاندن', total:'کۆی گشتی', checkout:'تەواوکردنی داواکاری', name:'ناوت', phone:'ژمارەی مۆبایل', city:'شار',
@@ -268,7 +342,7 @@ const T = {
         cod:'💵 پارەدان بە نەقد لە کاتی گەیاندن', send:'ناردنی داواکاری', sending:'دەنێردرێت…', back:'گەڕانەوە', fill:'تکایە ناو، ژمارە، شار و ناونیشان بنووسە.',
         badPhone:'تکایە ژمارەیەکی دروست بنووسە.', failed:'داواکارییەکە نەنێردرا. ئینتەرنێت بپشکنە و دووبارە هەوڵبدەرەوە.',
         refused:'فرۆشگاکە ئێستا داواکاری وەرناگرێت.', doneTitle:'داواکارییەکەت گەیشت!', doneText:'سوپاس. فرۆشگاکە بەم زووانە پەیوەندیت پێوە دەکات بۆ دڵنیاکردنەوە.',
-        again:'شتێکی تر داوا بکە', call:'پەیوەندی', powered:'فرۆشگای ئۆنلاین', privacy:'تایبەتمەندی', items:'کاڵا', free:'بەخۆڕایی', offers:'🔥 داشکاندن', until:'داشکاندن تا', openNow:'ئێستا کراوەیە', closedNow:'داخراوە', whatsapp:'واتسئاپ', prev:'پێشوو', next:'دواتر', showing:'{a}–{b} لە {n} کاڵا', visit:'سەردانمان بکەن', shopAddr:'ناونیشان', hours:'کاتی کارکردن', map:'لە نەخشە بیکەرەوە', about:'دەربارەی ئێمە', contact:'پەیوەندی', madeWith:'ئەم فرۆشگا ئۆنلاینە دروستکراوە بە', createOwn:'فرۆشگای ئۆنلاینی خۆت دروست بکە', added:'خرایە سەبەتە', noResults:'هیچ کاڵایەک نەدۆزرایەوە', perPage:'پەڕە', },
+        again:'شتێکی تر داوا بکە', call:'پەیوەندی', powered:'فرۆشگای ئۆنلاین', privacy:'تایبەتمەندی', items:'کاڵا', free:'بەخۆڕایی', offers:'🔥 داشکاندن', until:'داشکاندن تا', openNow:'ئێستا کراوەیە', closedNow:'داخراوە', whatsapp:'واتسئاپ', prev:'پێشوو', next:'دواتر', showing:'{a}–{b} لە {n} کاڵا', visit:'سەردانمان بکەن', shopAddr:'ناونیشان', hours:'کاتی کارکردن', map:'لە نەخشە بیکەرەوە', about:'دەربارەی ئێمە', contact:'پەیوەندی', madeWith:'ئەم فرۆشگا ئۆنلاینە دروستکراوە بە', createOwn:'فرۆشگای ئۆنلاینی خۆت دروست بکە', added:'خرایە سەبەتە', noResults:'هیچ کاڵایەک نەدۆزرایەوە', perPage:'پەڕە', sortNew:'نوێترین', sortLow:'نرخ: کەم بۆ زۆر', sortHigh:'نرخ: زۆر بۆ کەم', sortName:'ناو ئ–ی', sortOff:'داشکاندن یەکەم', buy:'کڕینی کاڵاکان', menu:'زانیاری فرۆشگا', languages:'زمان', close:'داخستن', },
 };
 
 
@@ -323,6 +397,13 @@ function money(n) {
 }
 
 
+const ICON = {
+  pin: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+  phone: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
+  clock: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+};
+let sortBy = 'new';
+
 function setLang(l) {
   lang = T[l] ? l : 'en';
   const rtl = lang !== 'en';
@@ -332,17 +413,21 @@ function setLang(l) {
   document.querySelectorAll('.langs button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
   $('q').placeholder = t('search');
   $('stateText').textContent = t('loading');
-  $('openCart').textContent = t('viewCart');
   $('powered').textContent = t('powered');
   $('privacyLink').textContent = t('privacy');
   $('madeWith').textContent = t('madeWith');
-  $('appName').textContent = APP_NAME;
+  $('brandText').textContent = t('madeWith');
+  document.querySelectorAll('.appName').forEach(e => e.textContent = APP_NAME);
   $('createOwn').textContent = t('createOwn');
+  $('sort').innerHTML = [['new', 'sortNew'], ['low', 'sortLow'], ['high', 'sortHigh'], ['name', 'sortName'], ['off', 'sortOff']]
+    .map(([v, k]) => `<option value="${v}" ${v === sortBy ? 'selected' : ''}>${t(k)}</option>`).join('');
   store_set('shop_lang', lang);
   render();
+  if ($('drawer').classList.contains('show')) renderDrawer();
 }
 document.querySelectorAll('.langs button').forEach(b => b.onclick = () => setLang(b.dataset.l));
 $('q').oninput = () => { page = 1; renderGrid(true); };
+$('sort').onchange = () => { sortBy = $('sort').value; page = 1; renderGrid(true); };
 
 // Search bar gets a glass background when it sticks to the top.
 const tools = $('tools');
@@ -351,6 +436,31 @@ if ('IntersectionObserver' in window) {
   tools.before(sentinel);
   new IntersectionObserver(([e]) => tools.classList.toggle('stuck', !e.isIntersecting)).observe(sentinel);
 }
+
+// ───── side menu ─────
+function renderDrawer() {
+  const phone = (store && store.phone || '').replace(/[^\d+]/g, '');
+  const map = store ? mapLink() : '';
+  const link = (href, icon, title, sub) => `<a class="dlink" href="${esc(href)}" ${href.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>
+      <span class="aicon">${icon}</span><span><div>${esc(title)}</div>${sub ? `<div class="out">${esc(sub)}</div>` : ''}</span></a>`;
+  $('drawer').innerHTML = `<div class="drawer-head"><b>${t('menu')}</b><button class="xbtn" id="xbtn" aria-label="${t('close')}">✕</button></div>
+    <div class="dsec"><small>${t('languages')}</small><div class="dlangs">
+      ${[['ckb', 'کوردی'], ['ar', 'عربي'], ['en', 'English']].map(([l, n]) => `<button data-dl="${l}" class="${l === lang ? 'on' : ''}">${n}</button>`).join('')}
+    </div></div>
+    ${store ? `<div class="dsec"><small>${t('contact')}</small>
+      ${phone ? link(`tel:${phone}`, '📞', t('call'), store.phone) : ''}
+      ${phone ? link(`https://wa.me/${waNumber(phone)}`, '💬', t('whatsapp'), '') : ''}
+      ${map ? link(map, '📍', t('map'), store.address || '') : ''}
+      ${store.hours ? `<div class="dlink"><span class="aicon">🕒</span><span><div>${t('hours')}</div><div class="out">${esc(store.hours)}</div></span></div>` : ''}
+    </div>` : ''}
+    ${store && store.about ? `<div class="dsec"><small>${t('about')}</small><div class="out" style="font-size:.95rem">${esc(store.about)}</div></div>` : ''}`;
+  $('xbtn').onclick = closeDrawer;
+  $('drawer').querySelectorAll('[data-dl]').forEach(b => b.onclick = () => setLang(b.dataset.dl));
+}
+function openDrawer() { renderDrawer(); $('drawerBg').classList.add('show'); $('drawer').classList.add('show'); }
+function closeDrawer() { $('drawerBg').classList.remove('show'); $('drawer').classList.remove('show'); }
+$('menuBtn').onclick = openDrawer;
+$('drawerBg').onclick = closeDrawer;
 
 async function load() {
   if (!slug) return showState(t('notFound'));
@@ -365,6 +475,8 @@ async function load() {
   cart = store_get(`cart_${slug}`, {});
   for (const k in cart) if (!items.find(i => String(i.k) === k)) delete cart[k];
   $('state').classList.add('hidden');
+  $('hero').classList.remove('hidden');
+  $('listhead').classList.remove('hidden');
   document.title = store.shopName || 'Online shop';
   setLang(store_get('shop_lang', null) || store.lang || 'ckb');
   renderGrid(true);
@@ -449,17 +561,18 @@ function mapLink() {
 function render() {
   if (!store) return;
   $('shopName').textContent = store.shopName || '';
-  $('logo').textContent = (store.shopName || '🛒').trim().charAt(0).toUpperCase() || '🛒';
-  $('meta').innerHTML =
-    `<span class="pill ${store.open ? '' : 'closed'}"><span class="dot"></span>${store.open ? t('openNow') : t('closedNow')}</span>` +
-    `<span class="pill">🛍️ ${items.length} ${t('items')}</span>` +
-    (store.hours ? `<span class="pill">🕒 ${esc(store.hours)}</span>` : '');
+  $('logo').innerHTML = `<span>${esc((store.shopName || '🛒').trim().charAt(0).toUpperCase() || '🛒')}</span>`;
   const phone = (store.phone || '').replace(/[^\d+]/g, '');
   const map = mapLink();
-  $('actions').innerHTML =
-    (phone ? `<a class="act call" href="tel:${esc(phone)}">📞 ${t('call')}</a>` : '') +
-    (phone ? `<a class="act wa" href="https://wa.me/${waNumber(phone)}" target="_blank" rel="noopener">💬 ${t('whatsapp')}</a>` : '') +
-    (map ? `<a class="act loc" href="${esc(map)}" target="_blank" rel="noopener">📍 ${t('map')}</a>` : '');
+  $('heroLines').innerHTML =
+    (store.address ? `<div class="hline">${ICON.pin}${map ? `<a href="${esc(map)}" target="_blank" rel="noopener">${esc(store.address)}</a>` : esc(store.address)}</div>` : '') +
+    (phone ? `<div class="hline">${ICON.phone}<a href="tel:${esc(phone)}" dir="ltr">${esc(store.phone)}</a></div>` : '') +
+    (store.hours ? `<div class="hline">${ICON.clock}<span>${esc(store.hours)}</span></div>` : '') +
+    (store.about ? `<div class="habout">${esc(store.about)}</div>` : '');
+  $('status').classList.toggle('closed', !store.open);
+  $('statusText').textContent = store.open ? t('openNow') : t('closedNow');
+  $('waFab').classList.toggle('hidden', !phone);
+  if (phone) $('waFab').href = `https://wa.me/${waNumber(phone)}`;
   $('notice').classList.toggle('hidden', !!store.open);
   $('notice').innerHTML = `⏸️ <span>${esc(t('closed'))}</span>`;
   renderChips();
@@ -496,17 +609,30 @@ function renderChips() {
 
 function filtered() {
   const q = $('q').value.trim().toLowerCase();
-  return items.filter(i => (!cat || (cat === '__off' ? i.d > 0 : i.c === cat)) && (!q || i.n.toLowerCase().includes(q)));
+  const list = items.filter(i => (!cat || (cat === '__off' ? i.d > 0 : i.c === cat)) && (!q || i.n.toLowerCase().includes(q)));
+  const inStock = (a, b) => (b.s ? 1 : 0) - (a.s ? 1 : 0);
+  const by = {
+    new: (a, b) => inStock(a, b) || Number(b.k) - Number(a.k),
+    low: (a, b) => inStock(a, b) || a.p - b.p,
+    high: (a, b) => inStock(a, b) || b.p - a.p,
+    name: (a, b) => inStock(a, b) || a.n.localeCompare(b.n),
+    off: (a, b) => inStock(a, b) || (b.d || 0) - (a.d || 0) || Number(b.k) - Number(a.k),
+  }[sortBy];
+  return by ? list.sort(by) : list;
 }
 
 function actionHtml(i) {
   const k = String(i.k), qty = cart[k] || 0;
-  if (!i.s) return `<button class="add" disabled>${t('out')}</button>`;
-  if (qty > 0) return `<div class="stepper"><button data-a="-" data-k="${k}">−</button><span>${qty}</span><button data-a="+" data-k="${k}">+</button></div>`;
-  return `<button class="add" data-a="+" data-k="${k}" ${store.open ? '' : 'disabled'}>＋ ${t('add')}</button>`;
+  if (!i.s) return `<span class="outlbl">${t('out')}</span>`;
+  return `<div class="stepper"><button class="minus" data-a="-" data-k="${k}" ${qty ? '' : 'disabled'} aria-label="-">−</button>` +
+    `<span>${qty}</span><button class="plus" data-a="+" data-k="${k}" ${store.open ? '' : 'disabled'} aria-label="+">+</button></div>`;
 }
 
-// animate = cards fade in (new page / search / category). Not when only a quantity changes.
+function priceHtml(i) {
+  return `<div class="prices">${i.d > 0 ? `<span class="oldp">${money(i.op)}</span>` : ''}<span class="price">${money(i.p)}</span></div>`;
+}
+
+// animate = cards fade in (new page / search / category / sort). Not when only a quantity changes.
 function renderGrid(animate) {
   if (!store) return;
   const shown = filtered();
@@ -514,26 +640,27 @@ function renderGrid(animate) {
   if (page > pages) page = pages;
   const start = (page - 1) * PER_PAGE;
   const list = shown.slice(start, start + PER_PAGE);
-  $('countLine').classList.toggle('hidden', shown.length === 0);
-  $('countLine').textContent = t('showing').replace('{a}', start + 1).replace('{b}', start + list.length).replace('{n}', shown.length);
+  $('countBadge').textContent = shown.length;
+  $('countLbl').textContent = t('items');
+  $('countSub').textContent = shown.length ? t('showing').replace('{a}', start + 1).replace('{b}', start + list.length).replace('{n}', shown.length) : '';
   const grid = $('grid');
   grid.classList.toggle('anim', !!animate);
   if (!list.length) {
     grid.innerHTML = `<div class="empty"><div>🔎</div>${t('noResults')}</div>`;
   } else {
     grid.innerHTML = list.map((i, n) => {
-      const k = String(i.k), ph = photos[k];
+      const k = String(i.k), ph = photos[k], qty = cart[k] || 0;
       const hasPack = i.pk !== undefined && i.pk !== null;
       const img = ph ? `<img src="data:image/jpeg;base64,${ph}" alt="">` : `<span class="letter">${esc(i.n.trim().charAt(0).toUpperCase())}</span>`;
       const wait = !ph && hasPack ? ' wait' : '';
       const off = i.d > 0 ? `<span class="off">-${i.d}%</span>` : '';
       const sold = !i.s ? `<span class="soldout">${t('out')}</span>` : '';
-      const old = i.d > 0 ? `<span class="oldp">${money(i.op)}</span>` : '';
-      const until = i.d > 0 && i.de ? `<div class="until">⏳ ${t('until')} <bdi dir="ltr">${esc(i.de)}</bdi></div>` : '';
-      return `<div class="card ${i.d > 0 ? 'sale' : ''}" style="--i:${n}">
+      const tags = (i.c ? `<span class="tag">${esc(i.c)}</span>` : '') +
+        (i.d > 0 && i.de ? `<span class="tag red">⏳ ${t('until')} <bdi dir="ltr">${esc(i.de)}</bdi></span>` : '');
+      return `<div class="card ${i.d > 0 ? 'sale' : ''} ${qty ? 'incart' : ''}" style="--i:${n}" data-card="${k}">
         <div class="ph${wait}" data-k="${k}"${hasPack ? ` data-pk="${i.pk}"` : ''}>${img}${off}${sold}</div>
-        <div class="info"><div class="name">${esc(i.n)}</div><div class="prices"><span class="price">${money(i.p)}</span>${old}</div>${until}
-        <div class="act-slot" data-slot="${k}">${actionHtml(i)}</div></div></div>`;
+        <div class="info"><div class="name">${esc(i.n)}</div>${tags ? `<div class="tags">${tags}</div>` : ''}
+        <div class="bottom"><div data-slot="${k}">${actionHtml(i)}</div>${priceHtml(i)}</div></div></div>`;
     }).join('');
   }
   wireActions(grid);
@@ -570,7 +697,7 @@ function renderPager(pages) {
 }
 
 function scrollToGrid() {
-  const y = $('grid').getBoundingClientRect().top + window.scrollY - 170;
+  const y = $('grid').getBoundingClientRect().top + window.scrollY - 140;
   if (window.scrollY > y) window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
 }
 
@@ -591,7 +718,14 @@ function change(k, d) {
   // Update only this item's button (no redraw, no jumping).
   const slot = document.querySelector(`[data-slot="${k}"]`);
   const it = items.find(x => String(x.k) === k);
-  if (slot && it) { slot.innerHTML = actionHtml(it); wireActions(slot); }
+  if (slot && it) {
+    slot.innerHTML = actionHtml(it);
+    wireActions(slot);
+    const num = slot.querySelector('.stepper span');
+    if (num) num.classList.add('bump');
+    const card = document.querySelector(`[data-card="${k}"]`);
+    if (card) card.classList.toggle('incart', n > 0);
+  }
   if (before === 0 && n > 0) toast(`✓ ${t('added')}`);
   renderCartBar(true);
   if (!$('sheetBg').classList.contains('hidden')) openCart();
@@ -609,14 +743,17 @@ function renderCartBar(bump) {
   const lines = cartLines();
   const count = lines.reduce((s, l) => s + l.q, 0);
   $('cartbar').classList.toggle('hidden', count === 0);
+  document.body.classList.toggle('nocart', count === 0);
   $('cartCount').textContent = count;
-  $('cartTotal').textContent = money(subtotal());
+  const arrow = document.documentElement.dir === 'rtl' ? '←' : '→';
+  $('openCart').innerHTML = `<span>${t('buy')}</span><span dir="ltr">${money(subtotal())}</span><span>${arrow}</span>`;
   if (bump) {
     const c = $('cartCount');
     c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump');
   }
 }
 $('openCart').onclick = () => openCart();
+$('bagBtn').onclick = () => openCart();
 
 let savedScroll = 0;
 function closeSheet() {

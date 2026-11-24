@@ -46,6 +46,12 @@
   .card { background:#fff; border-radius:20px; overflow:hidden; box-shadow:0 6px 18px rgba(15,23,42,.06); display:flex; flex-direction:column; }
   .ph { aspect-ratio:1/1; background:#EEF2F7; display:grid; place-items:center; color:#94A3B8; font-size:2.4rem; font-weight:800; overflow:hidden; }
   .ph img { width:100%; height:100%; object-fit:cover; display:block; }
+  .ph { position:relative; }
+  .off { position:absolute; top:8px; inset-inline-start:8px; background:#E5484D; color:#fff; font-weight:800; font-size:.85rem; padding:3px 9px; border-radius:999px; box-shadow:0 4px 10px rgba(229,72,77,.35); }
+  .oldp { color:var(--muted); text-decoration:line-through; font-size:.85rem; font-weight:600; margin-inline-start:6px; }
+  .until { color:#E5484D; font-size:.78rem; font-weight:700; }
+  .chip.offers { border-color:#E5484D; color:#E5484D; font-weight:800; }
+  .chip.offers.on { background:#E5484D; color:#fff; }
   .info { padding:10px 12px 12px; display:flex; flex-direction:column; gap:6px; flex:1; }
   .name { font-weight:700; font-size:.98rem; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:2.6em; }
   .price { color:var(--green); font-weight:800; font-size:1.05rem; }
@@ -147,7 +153,7 @@ const T = {
         cod:'💵 Pay cash on delivery', send:'Send order', sending:'Sending…', back:'Back', fill:'Please fill in your name, phone, city and address.',
         badPhone:'Please enter a correct phone number.', failed:'Could not send the order. Check the internet and try again.',
         refused:'The shop is not taking orders right now.', doneTitle:'Order received!', doneText:'Thank you. The shop will call you soon to confirm your order.',
-        again:'Order something else', call:'Call', powered:'Online shop', privacy:'Privacy', items:'items', free:'Free' },
+        again:'Order something else', call:'Call', powered:'Online shop', privacy:'Privacy', items:'items', free:'Free', offers:'🔥 Offers', until:'Offer until' },
   ar: { loading:'جارٍ التحميل…', notFound:'لم يتم العثور على هذا المتجر. تحقق من الرابط.', closed:'هذا المتجر لا يستقبل الطلبات حالياً.',
         search:'ابحث عن المواد', all:'الكل', add:'أضف', out:'غير متوفر', viewCart:'عرض السلة', cart:'سلتك', empty:'سلتك فارغة',
         subtotal:'المواد', fee:'التوصيل', total:'المجموع', checkout:'إتمام الطلب', name:'اسمك', phone:'رقم الهاتف', city:'المدينة',
@@ -155,7 +161,7 @@ const T = {
         cod:'💵 الدفع نقداً عند الاستلام', send:'أرسل الطلب', sending:'جارٍ الإرسال…', back:'رجوع', fill:'يرجى إدخال الاسم والهاتف والمدينة والعنوان.',
         badPhone:'يرجى إدخال رقم هاتف صحيح.', failed:'تعذر إرسال الطلب. تحقق من الإنترنت وحاول مرة أخرى.',
         refused:'المتجر لا يستقبل الطلبات حالياً.', doneTitle:'تم استلام طلبك!', doneText:'شكراً لك. سيتصل بك المتجر قريباً لتأكيد الطلب.',
-        again:'اطلب شيئاً آخر', call:'اتصال', powered:'متجر إلكتروني', privacy:'الخصوصية', items:'مواد', free:'مجاني' },
+        again:'اطلب شيئاً آخر', call:'اتصال', powered:'متجر إلكتروني', privacy:'الخصوصية', items:'مواد', free:'مجاني', offers:'🔥 العروض', until:'العرض حتى' },
   ckb:{ loading:'چاوەڕێ بکە…', notFound:'ئەم فرۆشگایە نەدۆزرایەوە. لینکەکە بپشکنە.', closed:'ئەم فرۆشگایە ئێستا داواکاری وەرناگرێت.',
         search:'گەڕان بۆ کاڵا', all:'هەموو', add:'زیادکردن', out:'نەماوە', viewCart:'بینینی سەبەتە', cart:'سەبەتەکەت', empty:'سەبەتەکەت بەتاڵە',
         subtotal:'کاڵاکان', fee:'گەیاندن', total:'کۆی گشتی', checkout:'تەواوکردنی داواکاری', name:'ناوت', phone:'ژمارەی مۆبایل', city:'شار',
@@ -163,7 +169,7 @@ const T = {
         cod:'💵 پارەدان بە نەقد لە کاتی گەیاندن', send:'ناردنی داواکاری', sending:'دەنێردرێت…', back:'گەڕانەوە', fill:'تکایە ناو، ژمارە، شار و ناونیشان بنووسە.',
         badPhone:'تکایە ژمارەیەکی دروست بنووسە.', failed:'داواکارییەکە نەنێردرا. ئینتەرنێت بپشکنە و دووبارە هەوڵبدەرەوە.',
         refused:'فرۆشگاکە ئێستا داواکاری وەرناگرێت.', doneTitle:'داواکارییەکەت گەیشت!', doneText:'سوپاس. فرۆشگاکە بەم زووانە پەیوەندیت پێوە دەکات بۆ دڵنیاکردنەوە.',
-        again:'شتێکی تر داوا بکە', call:'پەیوەندی', powered:'فرۆشگای ئۆنلاین', privacy:'تایبەتمەندی', items:'کاڵا', free:'بەخۆڕایی' },
+        again:'شتێکی تر داوا بکە', call:'پەیوەندی', powered:'فرۆشگای ئۆنلاین', privacy:'تایبەتمەندی', items:'کاڵا', free:'بەخۆڕایی', offers:'🔥 داشکاندن', until:'داشکاندن تا' },
 };
 
 const $ = (id) => document.getElementById(id);
@@ -239,6 +245,7 @@ async function load() {
     store = fieldsOf(await res.json());
   } catch (e) { return showState(t('failed')); }
   items = (store.items || []).filter(i => i && i.n);
+  applyOffers();
   cart = store_get(`cart_${slug}`, {});
   for (const k in cart) if (!items.find(i => String(i.k) === k)) delete cart[k];
   setLang(store_get('shop_lang', null) || store.lang || 'ckb');
@@ -272,6 +279,21 @@ function loadPhotos() {
   }
 }
 
+// Discount from the shop app: d = percent, de = last day (yyyy-mm-dd). Ended offers are ignored.
+function applyOffers() {
+  const now = new Date();
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  const f = Math.pow(10, (store && store.decimals) || 0);
+  for (const i of items) {
+    if (i.d > 0 && i.d < 100 && (!i.de || i.de >= today)) {
+      i.op = i.p;
+      i.p = Math.round(i.p * (100 - i.d) / 100 * f) / f;
+    } else {
+      i.d = 0;
+    }
+  }
+}
+
 function showState(text) {
   $('state').classList.remove('hidden');
   $('state').innerHTML = `<div style="font-size:2.6rem">🏪</div><div>${esc(text)}</div>`;
@@ -293,16 +315,18 @@ function render() {
 
 function renderChips() {
   const cats = [...new Set(items.map(i => i.c).filter(Boolean))];
-  $('chips').classList.toggle('hidden', cats.length === 0);
-  $('chips').innerHTML = [['', t('all')], ...cats.map(c => [c, c])]
-    .map(([v, l]) => `<button class="chip ${v === cat ? 'on' : ''}" data-c="${esc(v)}">${esc(l)}</button>`).join('');
+  const hasOffers = items.some(i => i.d > 0);
+  if (!hasOffers && cat === '__off') cat = '';
+  $('chips').classList.toggle('hidden', cats.length === 0 && !hasOffers);
+  $('chips').innerHTML = [['', t('all')], ...(hasOffers ? [['__off', t('offers')]] : []), ...cats.map(c => [c, c])]
+    .map(([v, l]) => `<button class="chip ${v === '__off' ? 'offers' : ''} ${v === cat ? 'on' : ''}" data-c="${esc(v)}">${esc(l)}</button>`).join('');
   $('chips').querySelectorAll('.chip').forEach(b => b.onclick = () => { cat = b.dataset.c; renderChips(); renderGrid(); });
 }
 
 function renderGrid() {
   if (!store) return;
   const q = $('q').value.trim().toLowerCase();
-  const shown = items.filter(i => (!cat || i.c === cat) && (!q || i.n.toLowerCase().includes(q)));
+  const shown = items.filter(i => (!cat || (cat === '__off' ? i.d > 0 : i.c === cat)) && (!q || i.n.toLowerCase().includes(q)));
   $('grid').innerHTML = shown.map(i => {
     const k = String(i.k), qty = cart[k] || 0, ph = photos[k];
     const img = ph ? `<img loading="lazy" src="data:image/jpeg;base64,${ph}" alt="">` : esc(i.n.trim().charAt(0).toUpperCase());
@@ -311,7 +335,10 @@ function renderGrid() {
     if (!i.s) action = `<button class="add" disabled>${t('out')}</button>`;
     else if (qty > 0) action = `<div class="stepper"><button data-a="-" data-k="${k}">−</button><span>${qty}</span><button data-a="+" data-k="${k}">+</button></div>`;
     else action = `<button class="add" data-a="+" data-k="${k}" ${store.open ? '' : 'disabled'}>${t('add')}</button>`;
-    return `<div class="card"><div class="ph"${pkAttr}>${img}</div><div class="info"><div class="name">${esc(i.n)}</div><div class="price">${money(i.p)}</div>${action}</div></div>`;
+    const off = i.d > 0 ? `<span class="off">-${i.d}%</span>` : '';
+    const old = i.d > 0 ? `<span class="oldp">${money(i.op)}</span>` : '';
+    const until = i.d > 0 && i.de ? `<div class="until">${t('until')} ${esc(i.de)}</div>` : '';
+    return `<div class="card"><div class="ph"${pkAttr}>${img}${off}</div><div class="info"><div class="name">${esc(i.n)}</div><div class="price">${money(i.p)}${old}</div>${until}${action}</div></div>`;
   }).join('');
   $('grid').querySelectorAll('[data-a]').forEach(b => b.onclick = () => change(b.dataset.k, b.dataset.a === '+' ? 1 : -1));
   observePhotos();

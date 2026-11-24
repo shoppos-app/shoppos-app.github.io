@@ -184,9 +184,6 @@
   .bag .badge.bump { animation:bump .45s var(--ease); }
   .brand { text-align:center; font-size:.85rem; color:var(--muted); padding-top:6px; }
   .brand a { color:var(--green2); font-weight:800; text-decoration:none; }
-  .wa-fab { position:fixed; inset-inline-end:16px; bottom:calc(150px + env(safe-area-inset-bottom)); z-index:11; width:62px; height:62px; border-radius:50%; background:#25D366; color:#fff;
-    display:grid; place-items:center; box-shadow:0 12px 26px rgba(37,211,102,.45); animation:pop .6s .4s var(--ease) both; transition:bottom .35s var(--ease); }
-  body.nocart .wa-fab { bottom:calc(64px + env(safe-area-inset-bottom)); }
   .toast { position:fixed; left:50%; top:calc(14px + env(safe-area-inset-top)); transform:translate(-50%,-220%); opacity:0; visibility:hidden; z-index:30; background:var(--ink); color:#fff; padding:10px 16px; border-radius:14px; font-weight:700; box-shadow:0 12px 26px rgba(11,18,32,.3); transition:transform .4s var(--ease), opacity .3s, visibility .3s; white-space:nowrap; }
   .toast.show { transform:translate(-50%,0); opacity:1; visibility:visible; }
 
@@ -215,7 +212,7 @@
   .sheet-top { position:sticky; top:0; background:rgba(255,255,255,.92); backdrop-filter:blur(12px); z-index:2; display:flex; align-items:center; gap:10px; padding:10px 0; margin-bottom:6px; border-bottom:1px solid var(--border); }
   .sheet-top button { width:42px; height:42px; border-radius:14px; background:var(--bg); font-size:1.3rem; font-weight:800; color:var(--ink); }
   .sheet-top b { font-size:1.05rem; }
-  body.page-open .page, body.page-open .dock, body.page-open .wa-fab { display:none !important; }
+  body.page-open .page, body.page-open .dock { display:none !important; }
   body.page-open { padding-bottom:0; }
   .sheet h2 { margin:4px 0 12px; font-size:1.25rem; }
   .line { display:flex; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid var(--border); }
@@ -311,9 +308,6 @@
   </div>
 </div>
 
-<a class="wa-fab hidden" id="waFab" target="_blank" rel="noopener" aria-label="WhatsApp">
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.2-.1-1-.4-2-1.2-.7-.6-1.2-1.4-1.3-1.7-.1-.2 0-.4.1-.5l.4-.4.2-.4v-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 2.2.9 2.6.7 3.1.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.2-.3-.2-.5-.3z"/></svg>
-</a>
 
 <div class="dock">
   <div class="in">
@@ -421,6 +415,7 @@ function money(n) {
 
 
 const ICON = {
+  wa: '<svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.2-.1-1-.4-2-1.2-.7-.6-1.2-1.4-1.3-1.7-.1-.2 0-.4.1-.5l.4-.4.2-.4v-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 2.2.9 2.6.7 3.1.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.2-.3-.2-.5-.3z"/></svg>',
   pin: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
   phone: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
   clock: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
@@ -472,7 +467,7 @@ function renderDrawer() {
     </div></div>
     ${store ? `<div class="dsec"><small>${t('contact')}</small>
       ${phone ? link(`tel:${phone}`, '📞', t('call'), store.phone) : ''}
-      ${phone ? link(`https://wa.me/${waNumber(phone)}`, '💬', t('whatsapp'), '') : ''}
+      ${phone ? link(`https://wa.me/${waNumber(phone)}`, ICON.wa, t('whatsapp'), store.phone) : ''}
       ${map ? link(map, '📍', t('map'), store.address || '') : ''}
       ${store.hours ? `<div class="dlink"><span class="aicon">🕒</span><span><div>${t('hours')}</div><div class="out">${esc(store.hours)}</div></span></div>` : ''}
     </div>` : ''}
@@ -594,8 +589,6 @@ function render() {
     (store.about ? `<div class="habout">${esc(store.about)}</div>` : '');
   $('status').classList.toggle('closed', !store.open);
   $('statusText').textContent = store.open ? t('openNow') : t('closedNow');
-  $('waFab').classList.toggle('hidden', !phone);
-  if (phone) $('waFab').href = `https://wa.me/${waNumber(phone)}`;
   $('notice').classList.toggle('hidden', !!store.open);
   $('notice').innerHTML = `⏸️ <span>${esc(t('closed'))}</span>`;
   renderChips();

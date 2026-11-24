@@ -61,8 +61,15 @@
   .cartbar .total { font-weight:800; font-size:1.1rem; }
   .cartbar button { margin-inline-start:auto; background:var(--green); color:#fff; padding:11px 18px; border-radius:14px; font-weight:800; }
 
-  .sheet-bg { position:fixed; inset:0; background:rgba(11,18,32,.5); z-index:20; display:flex; align-items:flex-end; justify-content:center; }
-  .sheet { background:#fff; width:100%; max-width:720px; max-height:92vh; overflow:auto; border-radius:26px 26px 0 0; padding:18px 18px calc(22px + env(safe-area-inset-bottom)); }
+  /* Cart and checkout open as a normal full page (scrolls well on iPhone and Android,
+     also with the keyboard open). */
+  .sheet-bg { background:var(--bg); min-height:100vh; }
+  .sheet { background:#fff; width:100%; max-width:720px; margin:0 auto; min-height:100vh; padding:12px 18px calc(40px + env(safe-area-inset-bottom)); }
+  .sheet-top { position:sticky; top:0; background:#fff; z-index:2; display:flex; align-items:center; gap:10px; padding:10px 0; margin-bottom:6px; border-bottom:1px solid var(--border); }
+  .sheet-top button { width:42px; height:42px; border-radius:14px; background:var(--bg); font-size:1.3rem; font-weight:800; color:var(--ink); }
+  .sheet-top b { font-size:1.05rem; }
+  body.page-open header, body.page-open main, body.page-open .cartbar { display:none !important; }
+  body.page-open { padding-bottom:0; }
   .sheet h2 { margin:4px 0 12px; font-size:1.25rem; }
   .line { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); }
   .line .ln { flex:1; font-weight:600; }
@@ -334,18 +341,39 @@ function renderCartBar() {
   $('cartTotal').textContent = money(subtotal());
 }
 $('openCart').onclick = () => openCart();
-$('sheetBg').onclick = (e) => { if (e.target === $('sheetBg') && !sending) closeSheet(); };
-function closeSheet() { $('sheetBg').classList.add('hidden'); }
+
+let savedScroll = 0;
+function closeSheet() {
+  $('sheetBg').classList.add('hidden');
+  document.body.classList.remove('page-open');
+  renderCartBar();
+  window.scrollTo(0, savedScroll);
+}
+function showSheet() {
+  const bg = $('sheetBg');
+  const wasHidden = bg.classList.contains('hidden');
+  if (wasHidden) savedScroll = window.scrollY;
+  bg.classList.remove('hidden');
+  document.body.classList.add('page-open');
+  if (wasHidden) window.scrollTo(0, 0);
+}
+// Small top bar with a back arrow on the cart / checkout page.
+function topBar(title, back) {
+  const arrow = document.documentElement.dir === 'rtl' ? '→' : '←';
+  return `<div class="sheet-top"><button id="topBack" aria-label="back">${arrow}</button><b>${esc(store.shopName || '')} · ${title}</b></div>`;
+}
+function wireTop(back) { const b = $('topBack'); if (b) b.onclick = back; }
 
 function openCart() {
   const lines = cartLines();
-  $('sheetBg').classList.remove('hidden');
+  showSheet();
   if (!lines.length) {
-    $('sheet').innerHTML = `<h2>${t('cart')}</h2><div class="center">${t('empty')}</div><button class="btn light" id="b">${t('back')}</button>`;
+    $('sheet').innerHTML = topBar(t('cart')) + `<div class="center">${t('empty')}</div><button class="btn light" id="b">${t('back')}</button>`;
     $('b').onclick = closeSheet;
+    wireTop(closeSheet);
     return;
   }
-  $('sheet').innerHTML = `<h2>${t('cart')}</h2>` + lines.map(l => `
+  $('sheet').innerHTML = topBar(t('cart')) + lines.map(l => `
     <div class="line"><div class="ln">${esc(l.i.n)}<div class="out">${money(l.i.p)}</div></div>
     <div class="mini"><button data-a="-" data-k="${l.i.k}">−</button><b>${l.q}</b><button data-a="+" data-k="${l.i.k}">+</button></div>
     <div class="lp">${money(l.i.p * l.q)}</div></div>`).join('') +
@@ -355,6 +383,7 @@ function openCart() {
   $('sheet').querySelectorAll('[data-a]').forEach(b => b.onclick = () => change(b.dataset.k, b.dataset.a === '+' ? 1 : -1));
   $('go').onclick = checkout;
   $('b').onclick = closeSheet;
+  wireTop(closeSheet);
 }
 
 function checkout() {
@@ -364,7 +393,7 @@ function checkout() {
     ? `<select class="field" id="city"><option value="">${t('chooseCity')}</option>${cities.map((c, i) =>
         `<option value="${i}" ${saved.city === c.n ? 'selected' : ''}>${esc(c.n)} — ${c.f > 0 ? money(c.f) : t('free')}</option>`).join('')}</select>`
     : `<input class="field" id="city" value="${esc(saved.city || '')}">`;
-  $('sheet').innerHTML = `<h2>${t('checkout')}</h2>
+  $('sheet').innerHTML = topBar(t('checkout')) + `
     <label>${t('name')}</label><input class="field" id="cn" maxlength="80" value="${esc(saved.name || '')}" autocomplete="name">
     <label>${t('phone')}</label><input class="field" id="cp" maxlength="20" inputmode="tel" dir="ltr" value="${esc(saved.phone || '')}" autocomplete="tel" placeholder="07xx xxx xxxx">
     <label>${t('city')}</label>${cityField}
@@ -379,6 +408,8 @@ function checkout() {
     <div class="err hidden" id="err"></div>
     <button class="btn" id="send">${t('send')}</button>
     <button class="btn light" id="b">${t('back')}</button>`;
+  window.scrollTo(0, 0);
+  wireTop(() => { if (!sending) openCart(); });
   const fee = () => {
     if (!cities.length) return 0;
     const i = $('city').value;
@@ -387,7 +418,7 @@ function checkout() {
   const upd = () => { $('feeV').textContent = fee() > 0 ? money(fee()) : t('free'); $('totV').textContent = money(subtotal() + fee()); };
   if (cities.length) $('city').onchange = upd;
   upd();
-  $('b').onclick = openCart;
+  $('b').onclick = () => { if (!sending) openCart(); };
   $('send').onclick = async () => {
     const name = $('cn').value.trim(), phone = $('cp').value.trim(), address = $('ca').value.trim(), note = $('cnote').value.trim();
     const cityName = cities.length ? ($('city').value === '' ? '' : cities[Number($('city').value)].n) : $('city').value.trim();
@@ -418,6 +449,7 @@ function checkout() {
         <div class="row"><span>${t('fee')}</span><span>${f > 0 ? money(f) : t('free')}</span></div>
         <div class="row big"><span>${t('total')}</span><span>${money(sub + f)}</span></div></div>
         <button class="btn" id="b">${t('again')}</button></div>`;
+      window.scrollTo(0, 0);
       $('b').onclick = closeSheet;
     } catch (e) {
       $('send').disabled = false; $('send').textContent = t('send'); err(t('failed'));

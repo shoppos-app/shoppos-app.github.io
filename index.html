@@ -6,13 +6,19 @@
 <title>Frosh POS — Point of sale and stock for small shops</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2310B981'/><stop offset='1' stop-color='%23047857'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='url(%23g)'/><g transform='translate(50 50) scale(0.8) translate(-50 -50.5)'><path d='M28 16 H72 V80 L66.5 85 L61 80 L55.5 85 L50 80 L44.5 85 L39 80 L33.5 85 L28 80 Z' fill='%23fff'/><rect x='37' y='30' width='26' height='6' rx='3' fill='%23059669'/><rect x='37' y='43' width='26' height='6' rx='3' fill='%23059669'/><rect x='37' y='60' width='16' height='6' rx='3' fill='%23F5B83D'/></g></svg>">
 <style>
+  @font-face { font-family: Rudaw; src: url("shop/Rudaw-Regular.ttf") format("truetype"); font-display: swap; }
   :root { --ink:#0B1220; --green:#059669; --muted:#64748B; --bg:#F3F5F9; }
   * { box-sizing: border-box; }
   body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; }
-  header { background:linear-gradient(135deg,#0B1220,#1C2740); color:#fff; padding:56px 20px 64px; text-align:center; }
-  header h1 { margin:0 0 8px; font-size:2.4rem; }
-  header p { margin:0 auto; max-width:620px; color:#cbd5e1; font-size:1.1rem; }
+  html[dir="rtl"] body { font-family: Rudaw, system-ui, Tahoma, Arial, sans-serif; line-height:1.8; }
+  header { background:linear-gradient(135deg,#0B1220,#1C2740); color:#fff; padding:20px 20px 64px; text-align:center; }
+  .topbar { max-width:960px; margin:0 auto 28px; display:flex; justify-content:flex-end; }
+  .langs { display:inline-flex; gap:4px; background:rgba(255,255,255,.08); padding:4px; border-radius:999px; }
+  .langs button { border:0; background:transparent; color:#CBD5E1; font:inherit; font-weight:700; font-size:.92rem; padding:7px 14px; border-radius:999px; cursor:pointer; min-height:36px; }
+  .langs button.on { background:#fff; color:var(--ink); }
   .brandlogo { width:84px; height:84px; margin:0 auto 18px; border-radius:24px; display:grid; place-items:center; background:linear-gradient(135deg,#10B981,#047857); box-shadow:0 12px 28px rgba(5,150,105,.35); }
+  header h1 { margin:0 0 8px; font-size:2.4rem; line-height:1.25; }
+  header p { margin:0 auto; max-width:620px; color:#cbd5e1; font-size:1.1rem; }
   .badge { display:inline-block; background:var(--green); color:#fff; padding:6px 14px; border-radius:999px; font-weight:700; margin-bottom:16px; }
   main { max-width:960px; margin:-32px auto 40px; padding:0 20px; }
   .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
@@ -20,32 +26,150 @@
   .card h3 { margin:0 0 6px; color:var(--green); }
   .card p { margin:0; color:var(--muted); }
   section { margin-top:28px; }
+  .get { background:linear-gradient(135deg,#0B1220,#123B33); color:#fff; border-radius:24px; padding:28px 24px; box-shadow:0 14px 30px rgba(11,18,32,.22); }
+  .get h2 { margin:0 0 6px; font-size:1.6rem; }
+  .get p { margin:0 0 18px; color:#CBD5E1; max-width:640px; }
+  .stores { display:flex; flex-wrap:wrap; gap:12px; }
+  .store { display:inline-flex; align-items:center; gap:12px; background:#fff; color:var(--ink); text-decoration:none; padding:12px 18px; border-radius:16px; min-width:230px; min-height:60px; }
+  .store svg { flex:none; }
+  .store small { display:block; color:var(--muted); font-size:.8rem; font-weight:600; }
+  .store b { display:block; font-size:1.05rem; }
+  .store.soon { opacity:.92; cursor:default; }
+  .store .soontag { margin-inline-start:auto; background:#FEF3C7; color:#92400E; font-size:.75rem; font-weight:800; padding:4px 9px; border-radius:999px; }
   footer { text-align:center; color:var(--muted); padding:24px; font-size:.95rem; }
   a { color:var(--green); }
+  @media (max-width:520px) { header h1 { font-size:1.9rem; } .store { width:100%; } }
 </style>
 </head>
 <body>
 <header>
+  <div class="topbar">
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-l="ckb">کوردی</button>
+      <button type="button" data-l="ar">عربي</button>
+      <button type="button" data-l="en">English</button>
+    </div>
+  </div>
   <div class="brandlogo"><svg width="56" height="56" viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(50 50) scale(0.8) translate(-50 -50.5)"><path d="M28 16 H72 V80 L66.5 85 L61 80 L55.5 85 L50 80 L44.5 85 L39 80 L33.5 85 L28 80 Z" fill="#fff"/><rect x="37" y="30" width="26" height="6" rx="3" fill="#059669"/><rect x="37" y="43" width="26" height="6" rx="3" fill="#059669"/><rect x="37" y="60" width="16" height="6" rx="3" fill="#F5B83D"/></g></svg></div>
   <div class="badge">Frosh POS</div>
-  <h1>Sell faster. Know your stock.</h1>
-  <p>A simple point-of-sale and inventory app for small markets and shops — in English, Arabic and Kurdish (Sorani). Works on Android phones and tablets.</p>
+  <h1 data-i="h1">Sell faster. Know your stock.</h1>
+  <p data-i="lead">A simple point-of-sale and inventory app for small markets and shops — in English, Arabic and Kurdish (Sorani).</p>
 </header>
 <main>
   <div class="grid">
-    <div class="card"><h3>Barcode selling</h3><p>Scan with the camera or a barcode scanner, see the price and sell in one tap.</p></div>
-    <div class="card"><h3>Stock &amp; expiry</h3><p>Buy price, sell price, quantity and expiry date for every item, with low-stock alerts.</p></div>
-    <div class="card"><h3>Customers &amp; debts</h3><p>Credit sales, installments and payments, plus suppliers and purchases.</p></div>
-    <div class="card"><h3>Cash box &amp; delivery</h3><p>Cash counting, shifts, delivery orders and status tracking.</p></div>
-    <div class="card"><h3>Reports</h3><p>Sales, profit and best sellers, exported to PDF, Word or Excel.</p></div>
-    <div class="card"><h3>Safe backups</h3><p>Back up to your own Google Drive automatically, and print receipts on Bluetooth printers.</p></div>
+    <div class="card"><h3 data-i="f1t">Barcode selling</h3><p data-i="f1">Scan with the camera or a barcode scanner, see the price and sell in one tap.</p></div>
+    <div class="card"><h3 data-i="f2t">Stock &amp; expiry</h3><p data-i="f2">Buy price, sell price, quantity and expiry date for every item, with low-stock alerts.</p></div>
+    <div class="card"><h3 data-i="f3t">Customers &amp; debts</h3><p data-i="f3">Credit sales, installments and payments, plus suppliers and purchases.</p></div>
+    <div class="card"><h3 data-i="f4t">Cash box &amp; delivery</h3><p data-i="f4">Cash counting, shifts, delivery orders and status tracking.</p></div>
+    <div class="card"><h3 data-i="f5t">Reports</h3><p data-i="f5">Sales, profit and best sellers, exported to PDF, Word or Excel.</p></div>
+    <div class="card"><h3 data-i="f6t">Safe backups</h3><p data-i="f6">Back up to your own Google Drive automatically, and print receipts on Bluetooth printers.</p></div>
+    <div class="card"><h3 data-i="f7t">Your own online shop</h3><p data-i="f7">Share your shop link and QR code, and get orders from your customers directly.</p></div>
   </div>
+
+  <section class="get" id="download">
+    <h2 data-i="getT">Get the app</h2>
+    <p data-i="get">Frosh POS is a phone app. Download it, set up your shop, and open your own online shop in minutes.</p>
+    <div class="stores">
+      <a class="store" id="play" href="#" target="_blank" rel="noopener">
+        <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5v17a1 1 0 0 0 1.5.86l14-8.5a1 1 0 0 0 0-1.72l-14-8.5A1 1 0 0 0 5 3.5z" fill="#059669"/></svg>
+        <span><small data-i="playS">Get it on</small><b>Google Play</b></span>
+        <span class="soontag" data-i="soon">Coming soon</span>
+      </a>
+      <a class="store" id="apple" href="#" target="_blank" rel="noopener">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B1220" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/></svg>
+        <span><small data-i="appleS">Download on the</small><b>App Store</b></span>
+        <span class="soontag" data-i="soon">Coming soon</span>
+      </a>
+    </div>
+  </section>
+
   <section class="card">
-    <h3>Contact</h3>
-    <p>Questions or support: <a href="mailto:s.group.support60@gmail.com">s.group.support60@gmail.com</a> — or from inside the app (Settings → Help).</p>
-    <p>Read our <a href="privacy.html">Privacy Policy</a>.</p>
+    <h3 data-i="cT">Contact</h3>
+    <p><span data-i="c1">Questions or support:</span> <a href="mailto:s.group.support60@gmail.com">s.group.support60@gmail.com</a> <span data-i="c2">— or from inside the app (Settings → Help).</span></p>
+    <p><span data-i="c3">Read our</span> <a href="privacy.html" data-i="privacy">Privacy Policy</a>.</p>
   </section>
 </main>
-<footer>© 2026 Frosh POS · <a href="privacy.html">Privacy Policy</a></footer>
+<footer>© 2026 Frosh POS · <a href="privacy.html" data-i="privacy">Privacy Policy</a></footer>
+
+<script>
+// Store links: paste the real links here when the app is published.
+// While a link is empty, its button shows "Coming soon".
+const PLAY_URL = '';
+const APP_STORE_URL = '';
+
+const T = {
+  en: {
+    title: 'Frosh POS — Point of sale and stock for small shops',
+    h1: 'Sell faster. Know your stock.',
+    lead: 'A simple point-of-sale and inventory app for small markets and shops — in English, Arabic and Kurdish (Sorani).',
+    f1t: 'Barcode selling', f1: 'Scan with the camera or a barcode scanner, see the price and sell in one tap.',
+    f2t: 'Stock & expiry', f2: 'Buy price, sell price, quantity and expiry date for every item, with low-stock alerts.',
+    f3t: 'Customers & debts', f3: 'Credit sales, installments and payments, plus suppliers and purchases.',
+    f4t: 'Cash box & delivery', f4: 'Cash counting, shifts, delivery orders and status tracking.',
+    f5t: 'Reports', f5: 'Sales, profit and best sellers, exported to PDF, Word or Excel.',
+    f6t: 'Safe backups', f6: 'Back up to your own Google Drive automatically, and print receipts on Bluetooth printers.',
+    f7t: 'Your own online shop', f7: 'Share your shop link and QR code, and get orders from your customers directly.',
+    getT: 'Get the app', get: 'Frosh POS is a phone app. Download it, set up your shop, and open your own online shop in minutes.',
+    playS: 'Get it on', appleS: 'Download on the', soon: 'Coming soon',
+    cT: 'Contact', c1: 'Questions or support:', c2: '— or from inside the app (Settings → Help).', c3: 'Read our', privacy: 'Privacy Policy',
+  },
+  ar: {
+    title: 'Frosh POS — نقاط البيع والمخزون للمحلات الصغيرة',
+    h1: 'بِع أسرع. واعرف مخزونك.',
+    lead: 'تطبيق بسيط لنقاط البيع وإدارة المخزون للماركتات والمحلات الصغيرة — بالإنكليزية والعربية والكردية (السورانية).',
+    f1t: 'البيع بالباركود', f1: 'امسح بالكاميرا أو بقارئ الباركود، شاهد السعر وبِع بلمسة واحدة.',
+    f2t: 'المخزون وتاريخ الانتهاء', f2: 'سعر الشراء وسعر البيع والكمية وتاريخ الانتهاء لكل مادة، مع تنبيه عند نقص المخزون.',
+    f3t: 'الزبائن والديون', f3: 'البيع بالدَّين والأقساط والتسديدات، بالإضافة إلى الموردين والمشتريات.',
+    f4t: 'الصندوق والتوصيل', f4: 'عدّ النقد والورديات وطلبات التوصيل ومتابعة حالتها.',
+    f5t: 'التقارير', f5: 'المبيعات والأرباح والأكثر مبيعاً، مع التصدير إلى PDF وWord وExcel.',
+    f6t: 'نسخ احتياطي آمن', f6: 'نسخ احتياطي تلقائي إلى Google Drive الخاص بك، وطباعة الفواتير على طابعات البلوتوث.',
+    f7t: 'متجرك الإلكتروني', f7: 'شارك رابط متجرك ورمز QR، واستقبل الطلبات من زبائنك مباشرة.',
+    getT: 'حمّل التطبيق', get: 'Frosh POS تطبيق للهاتف. حمّله، جهّز محلك، وافتح متجرك الإلكتروني خلال دقائق.',
+    playS: 'احصل عليه من', appleS: 'حمّله من', soon: 'قريباً',
+    cT: 'تواصل معنا', c1: 'للأسئلة أو الدعم:', c2: '— أو من داخل التطبيق (الإعدادات ← المساعدة).', c3: 'اقرأ', privacy: 'سياسة الخصوصية',
+  },
+  ckb: {
+    title: 'Frosh POS — فرۆشتن و کۆگا بۆ دوکانە بچووکەکان',
+    h1: 'خێراتر بفرۆشە. کاڵاکانت بزانە.',
+    lead: 'بەرنامەیەکی سادەی فرۆشتن و کۆگا بۆ مارکێت و دوکانە بچووکەکان — بە ئینگلیزی، عەرەبی و کوردی (سۆرانی).',
+    f1t: 'فرۆشتن بە بارکۆد', f1: 'بە کامێرا یان بارکۆد ڕیدەر سکان بکە، نرخەکە ببینە و بە یەک دەستلێدان بیفرۆشە.',
+    f2t: 'کۆگا و بەسەرچوون', f2: 'نرخی کڕین، نرخی فرۆشتن، بڕ و بەرواری بەسەرچوون بۆ هەموو کاڵایەک، لەگەڵ ئاگادارکردنەوە کاتێک کاڵا کەم دەبێتەوە.',
+    f3t: 'کڕیار و قەرز', f3: 'فرۆشتنی قەرز، قیست و پارەدان، لەگەڵ دابینکەران و کڕینەکان.',
+    f4t: 'سندوق و گەیاندن', f4: 'ژماردنی پارە، شەفتەکان، داواکاریی گەیاندن و بەدواداچوونی دۆخەکەیان.',
+    f5t: 'ڕاپۆرتەکان', f5: 'فرۆش، قازانج و پڕفرۆشترینەکان، بە دەرهێنان بۆ PDF، Word یان Excel.',
+    f6t: 'پاشەکەوتی پارێزراو', f6: 'بە شێوەی خۆکار لە Google Driveی خۆت پاشەکەوت بکە، و پسوڵە بە پرینتەری بلوتوس چاپ بکە.',
+    f7t: 'فرۆشگای ئۆنلاینی خۆت', f7: 'لینک و QRی فرۆشگاکەت بڵاو بکەرەوە و ڕاستەوخۆ داواکاری لە کڕیارەکانت وەربگرە.',
+    getT: 'بەرنامەکە دابەزێنە', get: 'Frosh POS بەرنامەیەکی مۆبایلە. دایبەزێنە، دوکانەکەت ئامادە بکە و لە چەند خولەکێکدا فرۆشگای ئۆنلاینی خۆت بکەرەوە.',
+    playS: 'دایبەزێنە لە', appleS: 'دایبەزێنە لە', soon: 'بەم زووانە',
+    cT: 'پەیوەندی', c1: 'بۆ پرسیار یان یارمەتی:', c2: '— یان لە ناو بەرنامەکەوە (ڕێکخستنەکان ← یارمەتی).', c3: 'بخوێنەرەوە:', privacy: 'سیاسەتی تایبەتمەندی',
+  },
+};
+
+function getSaved() { try { const v = localStorage.getItem('shop_lang'); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+function save(l) { try { localStorage.setItem('shop_lang', JSON.stringify(l)); } catch (e) {} }
+
+function setLang(l) {
+  const lang = T[l] ? l : 'en';
+  const d = T[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+  document.title = d.title;
+  document.querySelectorAll('[data-i]').forEach(e => { const v = d[e.dataset.i]; if (v) e.textContent = v; });
+  document.querySelectorAll('.langs button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+  save(lang);
+}
+
+function setStore(id, url) {
+  const a = document.getElementById(id);
+  if (url) { a.href = url; a.querySelector('.soontag').remove(); }
+  else { a.removeAttribute('href'); a.removeAttribute('target'); a.classList.add('soon'); }
+}
+setStore('play', PLAY_URL);
+setStore('apple', APP_STORE_URL);
+
+document.querySelectorAll('.langs button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.l)));
+const q = new URLSearchParams(location.search).get('lang');
+setLang(q || getSaved() || 'en');
+</script>
 </body>
 </html>
